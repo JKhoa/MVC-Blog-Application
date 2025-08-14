@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,60 +8,69 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root {
+         :root {
             --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --card-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
         }
-        body { 
-            background: var(--primary-gradient); 
-            min-height: 100vh; 
+        
+        body {
+            background: var(--primary-gradient);
+            min-height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        .demo-container { 
-            background: rgba(255,255,255,0.95); 
-            border-radius: 20px; 
+        
+        .demo-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
             box-shadow: var(--card-shadow);
             backdrop-filter: blur(10px);
         }
-        .feature-card { 
-            background: white; 
-            border-radius: 15px; 
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1); 
+        
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
             border: 1px solid rgba(102, 126, 234, 0.1);
         }
-        .feature-card:hover { 
-            transform: translateY(-10px); 
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
         }
+        
         .url-card {
             background: linear-gradient(45deg, #f8f9fa, #e9ecef);
             border-left: 4px solid #667eea;
             transition: all 0.3s ease;
         }
+        
         .url-card:hover {
             background: linear-gradient(45deg, #667eea, #764ba2);
             color: white;
         }
+        
         .badge-custom {
             background: linear-gradient(45deg, #28a745, #20c997);
             color: white;
             padding: 8px 15px;
             border-radius: 25px;
         }
+        
         .tech-badge {
             background: linear-gradient(45deg, #6c757d, #495057);
             color: white;
-            padding: 5px 12px;
+            padding: 8px 16px;
             border-radius: 15px;
-            font-size: 0.85em;
         }
+        
         .demo-header {
             background: var(--primary-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+        
         .code-snippet {
             background: #f8f9fa;
             border: 1px solid #e9ecef;
@@ -69,6 +79,7 @@
             font-family: 'Courier New', monospace;
             font-size: 0.9em;
         }
+        
         .live-demo-btn {
             background: linear-gradient(45deg, #28a745, #20c997);
             border: none;
@@ -78,6 +89,7 @@
             font-weight: bold;
             transition: all 0.3s ease;
         }
+        
         .live-demo-btn:hover {
             transform: scale(1.05);
             box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
@@ -85,6 +97,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container-fluid py-5">
         <div class="row justify-content-center">
@@ -203,9 +216,8 @@
                             </div>
                         </div>
                         <div class="alert alert-warning mt-3">
-                            <i class="fas fa-exclamation-triangle"></i> 
-                            <strong>Lưu ý:</strong> ASP.NET MVC 5 không chạy được bằng <code>dotnet CLI</code>. 
-                            Cần sử dụng Visual Studio để build và run.
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <strong>Lưu ý:</strong> ASP.NET MVC 5 không chạy được bằng <code>dotnet CLI</code>. Cần sử dụng Visual Studio để build và run.
                         </div>
                     </div>
 
@@ -221,13 +233,13 @@
                                     <div class="ps-3">
                                         <div class="mb-1"><i class="fas fa-folder text-warning"></i> <strong>Controllers/</strong></div>
                                         <div class="ps-3 text-muted small mb-2">BlogController, PostController</div>
-                                        
+
                                         <div class="mb-1"><i class="fas fa-folder text-warning"></i> <strong>Views/</strong></div>
                                         <div class="ps-3 text-muted small mb-2">Razor Views (Blog/, Post/, Shared/)</div>
-                                        
+
                                         <div class="mb-1"><i class="fas fa-folder text-warning"></i> <strong>App_Start/</strong></div>
                                         <div class="ps-3 text-muted small mb-2">RouteConfig, FilterConfig</div>
-                                        
+
                                         <div class="mb-1"><i class="fas fa-folder text-warning"></i> <strong>Content/</strong></div>
                                         <div class="ps-3 text-muted small">CSS, Images</div>
                                     </div>
@@ -239,13 +251,13 @@
                                     <div class="ps-3">
                                         <div class="mb-1"><i class="fas fa-folder text-warning"></i> <strong>Models/</strong></div>
                                         <div class="ps-3 text-muted small mb-2">View Models</div>
-                                        
+
                                         <div class="mb-1"><i class="fas fa-folder text-warning"></i> <strong>References/</strong></div>
                                         <div class="ps-3 text-muted small mb-2">EntityModel & EntityController từ Lab 2</div>
-                                        
+
                                         <div class="mb-1"><i class="fas fa-file-code text-info"></i> <strong>Web.config</strong></div>
                                         <div class="ps-3 text-muted small mb-2">Configuration Settings</div>
-                                        
+
                                         <div class="mb-1"><i class="fas fa-file text-secondary"></i> <strong>Global.asax</strong></div>
                                         <div class="ps-3 text-muted small">Application Events</div>
                                     </div>
@@ -266,18 +278,16 @@
                             </button>
                         </div>
                         <p class="text-muted mt-3">
-                            <i class="fas fa-info-circle"></i> 
-                            Nhấn "Live Demo" để truy cập ứng dụng trực tiếp
+                            <i class="fas fa-info-circle"></i> Nhấn "Live Demo" để truy cập ứng dụng trực tiếp
                         </p>
                     </div>
 
                     <!-- Footer -->
                     <div class="text-center mt-5 pt-4 border-top">
                         <p class="text-muted">
-                            <i class="fas fa-graduation-cap"></i> 
+                            <i class="fas fa-graduation-cap"></i>
                             <strong>Lab 3 - Web Nâng Cao</strong> | ASP.NET MVC Blog Application<br>
-                            <i class="fas fa-check-circle text-success"></i> 
-                            Hoàn thành 100% yêu cầu đề bài
+                            <i class="fas fa-check-circle text-success"></i> Hoàn thành 100% yêu cầu đề bài
                         </p>
                         <div class="mt-3">
                             <span class="badge bg-primary me-2">ASP.NET MVC</span>
@@ -300,44 +310,126 @@
             const originalText = btn.innerHTML;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang kiểm tra...';
             btn.disabled = true;
-            
-            // Kiểm tra GitHub Pages status
+
+            // Test GitHub Pages availability
             setTimeout(() => {
-                // GitHub Pages có thể chưa được kích hoạt
                 const githubPagesUrl = 'https://jkhoa.github.io/MVC-Blog-Application/';
                 const repoUrl = 'https://github.com/JKhoa/MVC-Blog-Application';
-                
-                // Thử mở GitHub Pages trước
-                const testWindow = window.open(githubPagesUrl, '_blank', 'noopener');
-                
-                // Reset button
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-                
-                // Thông báo hướng dẫn
-                setTimeout(() => {
-                    const message = `
-🔧 HƯỚNG DẪN KÍCH HOẠT GITHUB PAGES:
 
-1. 📁 Truy cập repository: ${repoUrl}
-2. ⚙️ Vào Settings → Pages
-3. 🌐 Source: Deploy from a branch
-4. 📂 Branch: main → /docs folder
-5. 💾 Save và đợi 2-3 phút
+                // Thử test xem GitHub Pages đã sẵn sàng chưa
+                fetch(githubPagesUrl, {
+                        mode: 'no-cors'
+                    })
+                    .then(() => {
+                        // GitHub Pages có sẵn - mở luôn
+                        window.open(githubPagesUrl, '_blank', 'noopener');
+                        btn.innerHTML = '<i class="fas fa-check-circle"></i> Đã mở demo!';
+                        btn.style.background = 'linear-gradient(45deg, #28a745, #20c997)';
 
-📱 Sau khi kích hoạt, demo sẽ có tại:
-${githubPagesUrl}
+                        setTimeout(() => {
+                            btn.innerHTML = originalText;
+                            btn.disabled = false;
+                        }, 2000);
+                    })
+                    .catch(() => {
+                        // GitHub Pages chưa sẵn sàng
+                        btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Cần setup!';
+                        btn.style.background = 'linear-gradient(45deg, #ffc107, #fd7e14)';
+                        btn.disabled = false;
 
-💡 CÁCH CHẠY NGAY BÂY GIỜ:
-• Clone repository về máy
-• Mở MvcBlog.csproj trong Visual Studio
-• Nhấn F5 để chạy local
+                        // Hiển thị modal với hướng dẫn chi tiết
+                        showSetupModal(repoUrl, githubPagesUrl);
 
-Repository: ${repoUrl}
-                    `;
-                    alert(message);
-                }, 500);
+                        setTimeout(() => {
+                            btn.innerHTML = originalText;
+                            btn.style.background = 'linear-gradient(45deg, #28a745, #20c997)';
+                        }, 3000);
+                    });
             }, 1000);
+        }
+
+        // Modal hướng dẫn setup
+        function showSetupModal(repoUrl, githubPagesUrl) {
+            // Tạo modal động
+            const modalHtml = `
+                <div class="modal fade" id="setupModal" tabindex="-1">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary text-white">
+                                <h5 class="modal-title">
+                                    <i class="fas fa-rocket"></i> Kích Hoạt GitHub Pages
+                                </h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle"></i>
+                                    <strong>GitHub Pages chưa được kích hoạt!</strong> Làm theo hướng dẫn bên dưới để setup:
+                                </div>
+                                
+                                <h6><i class="fas fa-step-forward"></i> Các bước thực hiện:</h6>
+                                <ol class="list-group list-group-numbered">
+                                    <li class="list-group-item d-flex align-items-start">
+                                        <i class="fas fa-external-link-alt text-primary me-2 mt-1"></i>
+                                        <div>
+                                            <strong>Mở Repository:</strong><br>
+                                            <a href="${repoUrl}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                <i class="fab fa-github"></i> Mở GitHub Repository
+                                            </a>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <i class="fas fa-cog text-warning me-2"></i>
+                                        <strong>Vào Settings:</strong> Nhấn tab "Settings" ở repository
+                                    </li>
+                                    <li class="list-group-item">
+                                        <i class="fas fa-file-alt text-info me-2"></i>
+                                        <strong>Tìm Pages:</strong> Scroll xuống tìm mục "Pages" ở sidebar trái
+                                    </li>
+                                    <li class="list-group-item">
+                                        <i class="fas fa-code-branch text-success me-2"></i>
+                                        <strong>Setup Source:</strong><br>
+                                        • Source: "Deploy from a branch"<br>
+                                        • Branch: <code>main</code><br>
+                                        • Folder: <code>/docs</code>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <i class="fas fa-save text-primary me-2"></i>
+                                        <strong>Save & Wait:</strong> Nhấn "Save" và đợi 2-3 phút
+                                    </li>
+                                </ol>
+
+                                <div class="alert alert-success mt-3">
+                                    <i class="fas fa-link"></i>
+                                    <strong>Sau khi setup xong, demo sẽ có tại:</strong><br>
+                                    <code>${githubPagesUrl}</code>
+                                </div>
+
+                                <div class="alert alert-warning">
+                                    <i class="fas fa-laptop-code"></i>
+                                    <strong>Muốn chạy ngay bây giờ?</strong><br>
+                                    Clone repository về máy và mở <code>MvcBlog.csproj</code> trong Visual Studio, nhấn F5
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                <a href="${repoUrl}/settings/pages" target="_blank" class="btn btn-primary">
+                                    <i class="fas fa-external-link-alt"></i> Mở Settings Pages
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Thêm modal vào body nếu chưa có
+            if (!document.getElementById('setupModal')) {
+                document.body.insertAdjacentHTML('beforeend', modalHtml);
+            }
+
+            // Hiển thị modal
+            const modal = new bootstrap.Modal(document.getElementById('setupModal'));
+            modal.show();
         }
 
         // Thêm animation cho cards
@@ -351,18 +443,19 @@ Repository: ${repoUrl}
 
         // CSS animation
         const style = document.createElement('style');
-        style.textContent = 
+        style.textContent =
             '@keyframes fadeInUp {' +
-                'from {' +
-                    'opacity: 0;' +
-                    'transform: translateY(30px);' +
-                '}' +
-                'to {' +
-                    'opacity: 1;' +
-                    'transform: translateY(0);' +
-                '}' +
+            'from {' +
+            'opacity: 0;' +
+            'transform: translateY(30px);' +
+            '}' +
+            'to {' +
+            'opacity: 1;' +
+            'transform: translateY(0);' +
+            '}' +
             '}';
         document.head.appendChild(style);
     </script>
 </body>
+
 </html>
