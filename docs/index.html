@@ -273,13 +273,74 @@
                             <a href="https://github.com/JKhoa/MVC-Blog-Application" class="live-demo-btn btn" target="_blank" rel="noopener">
                                 <i class="fab fa-github"></i> GitHub Repository
                             </a>
-                            <button class="live-demo-btn btn" onclick="openLiveDemo()">
-                                <i class="fas fa-rocket"></i> Live Demo
+                            <button class="live-demo-btn btn" onclick="openInteractiveDemo()">
+                                <i class="fas fa-play-circle"></i> Interactive Demo
+                            </button>
+                            <button class="live-demo-btn btn" onclick="openMockupDemo()" style="background: linear-gradient(45deg, #6f42c1, #e83e8c);">
+                                <i class="fas fa-desktop"></i> UI Mockup
                             </button>
                         </div>
                         <p class="text-muted mt-3">
-                            <i class="fas fa-info-circle"></i> Nhấn "Live Demo" để truy cập ứng dụng trực tiếp
+                            <i class="fas fa-info-circle"></i> 
+                            Nhấn "Interactive Demo" để xem mô phỏng ứng dụng MVC Blog
                         </p>
+                    </div>
+
+                    <!-- Interactive Demo Section (Hidden by default) -->
+                    <div id="interactiveDemoSection" class="feature-card p-4 mb-5" style="display: none;">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h4 class="text-primary mb-0">
+                                <i class="fas fa-laptop-code"></i> Interactive MVC Blog Demo
+                            </h4>
+                            <button class="btn btn-outline-secondary btn-sm" onclick="closeInteractiveDemo()">
+                                <i class="fas fa-times"></i> Đóng Demo
+                            </button>
+                        </div>
+                        
+                        <!-- Demo Navigation -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="demo-nav-card p-3 border rounded">
+                                    <h6 class="text-primary"><i class="fas fa-blog"></i> Blog Controller</h6>
+                                    <div class="btn-group-vertical d-grid gap-2">
+                                        <button class="btn btn-outline-primary btn-sm" onclick="showBlogIndex()">
+                                            <i class="fas fa-list"></i> /Blog/Index - Tất cả Blogs
+                                        </button>
+                                        <button class="btn btn-outline-primary btn-sm" onclick="showBlogGet()">
+                                            <i class="fas fa-eye"></i> /Blog/Get/1 - Chi tiết Blog
+                                        </button>
+                                        <button class="btn btn-outline-primary btn-sm" onclick="showBlogSearch()">
+                                            <i class="fas fa-search"></i> /Blog/Search - Tìm kiếm
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="demo-nav-card p-3 border rounded">
+                                    <h6 class="text-success"><i class="fas fa-edit"></i> Post Controller</h6>
+                                    <div class="btn-group-vertical d-grid gap-2">
+                                        <button class="btn btn-outline-success btn-sm" onclick="showPostIndex()">
+                                            <i class="fas fa-list"></i> /Post/Index - Tất cả Posts
+                                        </button>
+                                        <button class="btn btn-outline-success btn-sm" onclick="showPostGet()">
+                                            <i class="fas fa-eye"></i> /Post/Get/1 - Chi tiết Post
+                                        </button>
+                                        <button class="btn btn-outline-success btn-sm" onclick="showPostTags()">
+                                            <i class="fas fa-tags"></i> /Post/Tags - Tất cả Tags
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Demo Content Area -->
+                        <div id="demoContent" class="border rounded p-4 bg-light">
+                            <div class="text-center text-muted">
+                                <i class="fas fa-mouse-pointer fa-3x mb-3"></i>
+                                <h5>Chọn một action ở trên để xem demo</h5>
+                                <p>Demo này mô phỏng giao diện và chức năng của ứng dụng MVC Blog</p>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Footer -->
@@ -303,133 +364,563 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Hàm mở Live Demo
-        function openLiveDemo() {
-            // Hiển thị loading
+        // Interactive Demo Functions
+        function openInteractiveDemo() {
+            const demoSection = document.getElementById('interactiveDemoSection');
+            demoSection.style.display = 'block';
+            demoSection.scrollIntoView({ behavior: 'smooth' });
+            
+            // Update button text
             const btn = event.target;
             const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang kiểm tra...';
-            btn.disabled = true;
-
-            // Test GitHub Pages availability
+            btn.innerHTML = '<i class="fas fa-check-circle"></i> Demo Đã Mở';
+            btn.style.background = 'linear-gradient(45deg, #28a745, #20c997)';
+            
             setTimeout(() => {
-                const githubPagesUrl = 'https://jkhoa.github.io/MVC-Blog-Application/';
-                const repoUrl = 'https://github.com/JKhoa/MVC-Blog-Application';
-
-                // Thử test xem GitHub Pages đã sẵn sàng chưa
-                fetch(githubPagesUrl, {
-                        mode: 'no-cors'
-                    })
-                    .then(() => {
-                        // GitHub Pages có sẵn - mở luôn
-                        window.open(githubPagesUrl, '_blank', 'noopener');
-                        btn.innerHTML = '<i class="fas fa-check-circle"></i> Đã mở demo!';
-                        btn.style.background = 'linear-gradient(45deg, #28a745, #20c997)';
-
-                        setTimeout(() => {
-                            btn.innerHTML = originalText;
-                            btn.disabled = false;
-                        }, 2000);
-                    })
-                    .catch(() => {
-                        // GitHub Pages chưa sẵn sàng
-                        btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Cần setup!';
-                        btn.style.background = 'linear-gradient(45deg, #ffc107, #fd7e14)';
-                        btn.disabled = false;
-
-                        // Hiển thị modal với hướng dẫn chi tiết
-                        showSetupModal(repoUrl, githubPagesUrl);
-
-                        setTimeout(() => {
-                            btn.innerHTML = originalText;
-                            btn.style.background = 'linear-gradient(45deg, #28a745, #20c997)';
-                        }, 3000);
-                    });
-            }, 1000);
+                btn.innerHTML = originalText;
+                btn.style.background = 'linear-gradient(45deg, #28a745, #20c997)';
+            }, 2000);
         }
 
-        // Modal hướng dẫn setup
-        function showSetupModal(repoUrl, githubPagesUrl) {
-            // Tạo modal động
-            const modalHtml = `
-                <div class="modal fade" id="setupModal" tabindex="-1">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header bg-primary text-white">
-                                <h5 class="modal-title">
-                                    <i class="fas fa-rocket"></i> Kích Hoạt GitHub Pages
-                                </h5>
-                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        function closeInteractiveDemo() {
+            const demoSection = document.getElementById('interactiveDemoSection');
+            demoSection.style.display = 'none';
+        }
+
+        function openMockupDemo() {
+            // Mở popup với mockup UI
+            const mockupWindow = window.open('', 'MVCBlogMockup', 'width=1200,height=800,scrollbars=yes');
+            mockupWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>MVC Blog Application - UI Mockup</title>
+                    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+                    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+                </head>
+                <body class="bg-light">
+                    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+                        <div class="container">
+                            <a class="navbar-brand" href="#"><i class="fas fa-blog"></i> MVC Blog</a>
+                            <div class="navbar-nav">
+                                <a class="nav-link" href="#"><i class="fas fa-home"></i> Home</a>
+                                <a class="nav-link" href="#"><i class="fas fa-blog"></i> Blogs</a>
+                                <a class="nav-link" href="#"><i class="fas fa-edit"></i> Posts</a>
                             </div>
-                            <div class="modal-body">
+                        </div>
+                    </nav>
+                    <div class="container mt-4">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <h5><i class="fas fa-blog"></i> Bài viết mới nhất</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <h6 class="card-title">Học ASP.NET MVC 5 từ cơ bản</h6>
+                                        <p class="card-text">Hướng dẫn chi tiết về Entity Framework và MVC Pattern...</p>
+                                        <div class="d-flex justify-content-between">
+                                            <small class="text-muted">Tác giả: JKhoa | 14/08/2025</small>
+                                            <span class="badge bg-primary">ASP.NET</span>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="alert alert-info">
                                     <i class="fas fa-info-circle"></i>
-                                    <strong>GitHub Pages chưa được kích hoạt!</strong> Làm theo hướng dẫn bên dưới để setup:
-                                </div>
-                                
-                                <h6><i class="fas fa-step-forward"></i> Các bước thực hiện:</h6>
-                                <ol class="list-group list-group-numbered">
-                                    <li class="list-group-item d-flex align-items-start">
-                                        <i class="fas fa-external-link-alt text-primary me-2 mt-1"></i>
-                                        <div>
-                                            <strong>Mở Repository:</strong><br>
-                                            <a href="${repoUrl}" target="_blank" class="btn btn-sm btn-outline-primary">
-                                                <i class="fab fa-github"></i> Mở GitHub Repository
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <i class="fas fa-cog text-warning me-2"></i>
-                                        <strong>Vào Settings:</strong> Nhấn tab "Settings" ở repository
-                                    </li>
-                                    <li class="list-group-item">
-                                        <i class="fas fa-file-alt text-info me-2"></i>
-                                        <strong>Tìm Pages:</strong> Scroll xuống tìm mục "Pages" ở sidebar trái
-                                    </li>
-                                    <li class="list-group-item">
-                                        <i class="fas fa-code-branch text-success me-2"></i>
-                                        <strong>Setup Source:</strong><br>
-                                        • Source: "Deploy from a branch"<br>
-                                        • Branch: <code>main</code><br>
-                                        • Folder: <code>/docs</code>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <i class="fas fa-save text-primary me-2"></i>
-                                        <strong>Save & Wait:</strong> Nhấn "Save" và đợi 2-3 phút
-                                    </li>
-                                </ol>
-
-                                <div class="alert alert-success mt-3">
-                                    <i class="fas fa-link"></i>
-                                    <strong>Sau khi setup xong, demo sẽ có tại:</strong><br>
-                                    <code>${githubPagesUrl}</code>
-                                </div>
-
-                                <div class="alert alert-warning">
-                                    <i class="fas fa-laptop-code"></i>
-                                    <strong>Muốn chạy ngay bây giờ?</strong><br>
-                                    Clone repository về máy và mở <code>MvcBlog.csproj</code> trong Visual Studio, nhấn F5
+                                    <strong>Đây là UI Mockup</strong> - Để xem ứng dụng thật, clone repository và chạy trong Visual Studio
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                                <a href="${repoUrl}/settings/pages" target="_blank" class="btn btn-primary">
-                                    <i class="fas fa-external-link-alt"></i> Mở Settings Pages
-                                </a>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h6><i class="fas fa-tags"></i> Tags phổ biến</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <span class="badge bg-secondary me-1 mb-1">C#</span>
+                                        <span class="badge bg-secondary me-1 mb-1">ASP.NET</span>
+                                        <span class="badge bg-secondary me-1 mb-1">Entity Framework</span>
+                                        <span class="badge bg-secondary me-1 mb-1">MVC</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `);
+        }
+
+        // Demo Content Functions
+        function showBlogIndex() {
+            const content = document.getElementById('demoContent');
+            content.innerHTML = `
+                <div class="border-start border-primary border-3 ps-3 mb-3">
+                    <h5 class="text-primary"><i class="fas fa-route"></i> Route: /Blog/Index</h5>
+                    <p class="text-muted mb-1">Action: BlogController.Index()</p>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card border-primary">
+                            <div class="card-header bg-primary text-white">
+                                <h6 class="mb-0"><i class="fas fa-list"></i> Danh sách tất cả Blogs</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="list-group list-group-flush">
+                                    <div class="list-group-item">
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <h6 class="mb-1">Blog về ASP.NET MVC</h6>
+                                                <p class="mb-1 text-muted">Hướng dẫn từ cơ bản đến nâng cao...</p>
+                                                <small>Tác giả: JKhoa | 5 posts</small>
+                                            </div>
+                                            <span class="badge bg-success">Active</span>
+                                        </div>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <h6 class="mb-1">Entity Framework Tutorial</h6>
+                                                <p class="mb-1 text-muted">Code-First approach và Migration...</p>
+                                                <small>Tác giả: JKhoa | 3 posts</small>
+                                            </div>
+                                            <span class="badge bg-success">Active</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-info">
+                            <div class="card-header bg-info text-white">
+                                <h6 class="mb-0"><i class="fas fa-code"></i> Code Sample</h6>
+                            </div>
+                            <div class="card-body">
+                                <pre class="bg-dark text-light p-2 rounded"><code>public ActionResult Index()
+{
+    var blogs = db.Blogs
+        .Where(b => b.IsActive)
+        .OrderBy(b => b.CreateDate)
+        .ToList();
+    return View(blogs);
+}</code></pre>
                             </div>
                         </div>
                     </div>
                 </div>
             `;
+        }
 
-            // Thêm modal vào body nếu chưa có
-            if (!document.getElementById('setupModal')) {
-                document.body.insertAdjacentHTML('beforeend', modalHtml);
-            }
+        function showBlogGet() {
+            const content = document.getElementById('demoContent');
+            content.innerHTML = `
+                <div class="border-start border-primary border-3 ps-3 mb-3">
+                    <h5 class="text-primary"><i class="fas fa-route"></i> Route: /Blog/Get/1</h5>
+                    <p class="text-muted mb-1">Action: BlogController.Get(int? id)</p>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card border-primary">
+                            <div class="card-header bg-primary text-white">
+                                <h6 class="mb-0"><i class="fas fa-eye"></i> Chi tiết Blog (ID: 1)</h6>
+                            </div>
+                            <div class="card-body">
+                                <h4>Blog về ASP.NET MVC</h4>
+                                <p class="text-muted">
+                                    <i class="fas fa-user"></i> Tác giả: JKhoa | 
+                                    <i class="fas fa-calendar"></i> 14/08/2025 |
+                                    <i class="fas fa-eye"></i> 1,250 views
+                                </p>
+                                <p>Đây là blog hướng dẫn chi tiết về ASP.NET MVC 5, từ những khái niệm cơ bản cho đến các kỹ thuật nâng cao...</p>
+                                
+                                <h6 class="mt-4"><i class="fas fa-edit"></i> Posts trong Blog này:</h6>
+                                <div class="list-group">
+                                    <div class="list-group-item">
+                                        <h6 class="mb-1">Bài 1: Giới thiệu MVC Pattern</h6>
+                                        <p class="mb-1">Tìm hiểu về Model-View-Controller...</p>
+                                        <small>5 ngày trước</small>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <h6 class="mb-1">Bài 2: Entity Framework Code-First</h6>
+                                        <p class="mb-1">Cách sử dụng EF Code-First approach...</p>
+                                        <small>3 ngày trước</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-info">
+                            <div class="card-header bg-info text-white">
+                                <h6 class="mb-0"><i class="fas fa-code"></i> Code Sample</h6>
+                            </div>
+                            <div class="card-body">
+                                <pre class="bg-dark text-light p-2 rounded"><code>public ActionResult Get(int? id)
+{
+    if (id == null) 
+        return HttpNotFound();
+    
+    var blog = db.Blogs
+        .Include(b => b.Posts)
+        .FirstOrDefault(b => b.BlogId == id);
+    
+    if (blog == null) 
+        return HttpNotFound();
+    
+    return View(blog);
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
 
-            // Hiển thị modal
-            const modal = new bootstrap.Modal(document.getElementById('setupModal'));
-            modal.show();
+        function showBlogSearch() {
+            const content = document.getElementById('demoContent');
+            content.innerHTML = `
+                <div class="border-start border-primary border-3 ps-3 mb-3">
+                    <h5 class="text-primary"><i class="fas fa-route"></i> Route: /Blog/Search?keyword=mvc</h5>
+                    <p class="text-muted mb-1">Action: BlogController.Search(string keyword)</p>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card border-primary">
+                            <div class="card-header bg-primary text-white">
+                                <h6 class="mb-0"><i class="fas fa-search"></i> Kết quả tìm kiếm: "mvc"</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" value="mvc" readonly>
+                                    <button class="btn btn-outline-primary" disabled>
+                                        <i class="fas fa-search"></i> Tìm kiếm
+                                    </button>
+                                </div>
+                                
+                                <div class="alert alert-success">
+                                    <i class="fas fa-check-circle"></i> Tìm thấy 2 kết quả
+                                </div>
+                                
+                                <div class="list-group">
+                                    <div class="list-group-item">
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <h6 class="mb-1">Blog về ASP.NET <mark>MVC</mark></h6>
+                                                <p class="mb-1">Hướng dẫn <mark>MVC</mark> từ cơ bản đến nâng cao...</p>
+                                                <small>Match: Title + Description</small>
+                                            </div>
+                                            <span class="badge bg-primary">Perfect Match</span>
+                                        </div>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <h6 class="mb-1">Tutorial <mark>MVC</mark> Pattern</h6>
+                                                <p class="mb-1">Hiểu về pattern <mark>MVC</mark> trong web development...</p>
+                                                <small>Match: Title</small>
+                                            </div>
+                                            <span class="badge bg-secondary">Good Match</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-info">
+                            <div class="card-header bg-info text-white">
+                                <h6 class="mb-0"><i class="fas fa-code"></i> Code Sample</h6>
+                            </div>
+                            <div class="card-body">
+                                <pre class="bg-dark text-light p-2 rounded"><code>public ActionResult Search(string keyword)
+{
+    if (string.IsNullOrEmpty(keyword))
+        return View(new List&lt;Blog&gt;());
+    
+    var results = db.Blogs
+        .Where(b => b.Title.Contains(keyword) 
+                 || b.Description.Contains(keyword))
+        .OrderBy(b => b.Title)
+        .ToList();
+    
+    ViewBag.Keyword = keyword;
+    return View(results);
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showPostIndex() {
+            const content = document.getElementById('demoContent');
+            content.innerHTML = `
+                <div class="border-start border-success border-3 ps-3 mb-3">
+                    <h5 class="text-success"><i class="fas fa-route"></i> Route: /Post/Index</h5>
+                    <p class="text-muted mb-1">Action: PostController.Index()</p>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card border-success">
+                            <div class="card-header bg-success text-white">
+                                <h6 class="mb-0"><i class="fas fa-list"></i> Danh sách tất cả Posts</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card h-100">
+                                            <div class="card-body">
+                                                <h6 class="card-title">Giới thiệu MVC Pattern</h6>
+                                                <p class="card-text text-muted">Tìm hiểu về Model-View-Controller pattern trong ASP.NET...</p>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <small class="text-muted">5 ngày trước</small>
+                                                    <span class="badge bg-primary">MVC</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card h-100">
+                                            <div class="card-body">
+                                                <h6 class="card-title">Entity Framework Code-First</h6>
+                                                <p class="card-text text-muted">Hướng dẫn sử dụng EF Code-First approach...</p>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <small class="text-muted">3 ngày trước</small>
+                                                    <span class="badge bg-info">EF</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card h-100">
+                                            <div class="card-body">
+                                                <h6 class="card-title">Routing trong ASP.NET MVC</h6>
+                                                <p class="card-text text-muted">Cấu hình và tùy chỉnh routing system...</p>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <small class="text-muted">1 ngày trước</small>
+                                                    <span class="badge bg-warning text-dark">Routing</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card h-100">
+                                            <div class="card-body">
+                                                <h6 class="card-title">Razor Views và Layouts</h6>
+                                                <p class="card-text text-muted">Tạo giao diện với Razor engine...</p>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <small class="text-muted">Hôm nay</small>
+                                                    <span class="badge bg-secondary">Razor</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-info">
+                            <div class="card-header bg-info text-white">
+                                <h6 class="mb-0"><i class="fas fa-code"></i> Code Sample</h6>
+                            </div>
+                            <div class="card-body">
+                                <pre class="bg-dark text-light p-2 rounded"><code>public ActionResult Index()
+{
+    var posts = db.Posts
+        .Include(p => p.Blog)
+        .Where(p => p.IsPublished)
+        .OrderByDescending(p => p.CreateDate)
+        .ToList();
+    
+    return View(posts);
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showPostGet() {
+            const content = document.getElementById('demoContent');
+            content.innerHTML = `
+                <div class="border-start border-success border-3 ps-3 mb-3">
+                    <h5 class="text-success"><i class="fas fa-route"></i> Route: /Post/Get/1</h5>
+                    <p class="text-muted mb-1">Action: PostController.Get(int? id)</p>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card border-success">
+                            <div class="card-header bg-success text-white">
+                                <h6 class="mb-0"><i class="fas fa-eye"></i> Chi tiết Post (ID: 1)</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <span class="badge bg-primary">ASP.NET MVC Blog</span>
+                                    <span class="badge bg-secondary">MVC</span>
+                                    <span class="badge bg-secondary">Tutorial</span>
+                                </div>
+                                
+                                <h4>Giới thiệu MVC Pattern</h4>
+                                <p class="text-muted mb-3">
+                                    <i class="fas fa-user"></i> JKhoa | 
+                                    <i class="fas fa-calendar"></i> 9/08/2025 |
+                                    <i class="fas fa-eye"></i> 856 views
+                                </p>
+                                
+                                <div class="alert alert-primary">
+                                    <h6><i class="fas fa-lightbulb"></i> Tóm tắt:</h6>
+                                    <p class="mb-0">Bài viết giới thiệu về Model-View-Controller pattern, một trong những architectural pattern quan trọng nhất trong phát triển web với ASP.NET MVC.</p>
+                                </div>
+                                
+                                <h6><i class="fas fa-align-left"></i> Nội dung:</h6>
+                                <p>Model-View-Controller (MVC) là một architectural pattern giúp tách biệt logic của ứng dụng thành ba thành phần chính:</p>
+                                <ul>
+                                    <li><strong>Model:</strong> Đại diện cho dữ liệu và business logic</li>
+                                    <li><strong>View:</strong> Đảm nhận việc hiển thị giao diện người dùng</li>
+                                    <li><strong>Controller:</strong> Xử lý input từ user và điều phối giữa Model và View</li>
+                                </ul>
+                                
+                                <div class="bg-light p-3 rounded mt-3">
+                                    <h6><i class="fas fa-tags"></i> Tags:</h6>
+                                    <span class="badge bg-primary me-1">MVC</span>
+                                    <span class="badge bg-primary me-1">ASP.NET</span>
+                                    <span class="badge bg-primary me-1">Architecture</span>
+                                    <span class="badge bg-primary me-1">Pattern</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-info">
+                            <div class="card-header bg-info text-white">
+                                <h6 class="mb-0"><i class="fas fa-code"></i> Code Sample</h6>
+                            </div>
+                            <div class="card-body">
+                                <pre class="bg-dark text-light p-2 rounded"><code>public ActionResult Get(int? id)
+{
+    if (id == null) 
+        return HttpNotFound();
+    
+    var post = db.Posts
+        .Include(p => p.Blog)
+        .FirstOrDefault(p => p.PostId == id);
+    
+    if (post == null) 
+        return HttpNotFound();
+    
+    // Increment view count
+    post.ViewCount++;
+    db.SaveChanges();
+    
+    return View(post);
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showPostTags() {
+            const content = document.getElementById('demoContent');
+            content.innerHTML = `
+                <div class="border-start border-success border-3 ps-3 mb-3">
+                    <h5 class="text-success"><i class="fas fa-route"></i> Route: /Post/Tags</h5>
+                    <p class="text-muted mb-1">Action: PostController.Tags()</p>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card border-success">
+                            <div class="card-header bg-success text-white">
+                                <h6 class="mb-0"><i class="fas fa-tags"></i> Tất cả Tags và số lượng Posts</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6 class="text-primary"><i class="fas fa-fire"></i> Tags phổ biến:</h6>
+                                        <div class="d-flex flex-wrap gap-2 mb-3">
+                                            <span class="badge bg-primary fs-6">ASP.NET <span class="badge bg-light text-dark ms-1">8</span></span>
+                                            <span class="badge bg-info fs-6">MVC <span class="badge bg-light text-dark ms-1">6</span></span>
+                                            <span class="badge bg-success fs-6">Entity Framework <span class="badge bg-light text-dark ms-1">5</span></span>
+                                            <span class="badge bg-warning text-dark fs-6">C# <span class="badge bg-light text-dark ms-1">4</span></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6 class="text-secondary"><i class="fas fa-list"></i> Tất cả tags:</h6>
+                                        <div class="d-flex flex-wrap gap-1 mb-3">
+                                            <span class="badge bg-secondary">Tutorial (3)</span>
+                                            <span class="badge bg-secondary">Beginner (2)</span>
+                                            <span class="badge bg-secondary">Advanced (2)</span>
+                                            <span class="badge bg-secondary">Database (3)</span>
+                                            <span class="badge bg-secondary">Web Development (4)</span>
+                                            <span class="badge bg-secondary">Code-First (2)</span>
+                                            <span class="badge bg-secondary">Routing (1)</span>
+                                            <span class="badge bg-secondary">Razor (2)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="alert alert-info">
+                                    <h6><i class="fas fa-chart-bar"></i> Thống kê Tags:</h6>
+                                    <div class="row">
+                                        <div class="col-md-3 text-center">
+                                            <h4 class="text-primary">12</h4>
+                                            <small>Tổng số tags</small>
+                                        </div>
+                                        <div class="col-md-3 text-center">
+                                            <h4 class="text-success">42</h4>
+                                            <small>Tổng posts</small>
+                                        </div>
+                                        <div class="col-md-3 text-center">
+                                            <h4 class="text-warning">3.5</h4>
+                                            <small>Trung bình post/tag</small>
+                                        </div>
+                                        <div class="col-md-3 text-center">
+                                            <h4 class="text-info">8</h4>
+                                            <small>Tag phổ biến nhất</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-info">
+                            <div class="card-header bg-info text-white">
+                                <h6 class="mb-0"><i class="fas fa-code"></i> Code Sample</h6>
+                            </div>
+                            <div class="card-body">
+                                <pre class="bg-dark text-light p-2 rounded"><code>public ActionResult Tags()
+{
+    var tagGroups = db.Posts
+        .Where(p => p.IsPublished)
+        .SelectMany(p => p.Tags.Split(','))
+        .Where(tag => !string.IsNullOrEmpty(tag))
+        .GroupBy(tag => tag.Trim())
+        .Select(g => new TagViewModel 
+        {
+            Name = g.Key,
+            Count = g.Count()
+        })
+        .OrderByDescending(t => t.Count)
+        .ToList();
+    
+    return View(tagGroups);
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Original functions (kept for compatibility)
+        function openLiveDemo() {
+            // Redirect to interactive demo instead
+            openInteractiveDemo();
         }
 
         // Thêm animation cho cards
