@@ -298,21 +298,44 @@
             // Hiển thị loading
             const btn = event.target;
             const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang mở...';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang kiểm tra...';
             btn.disabled = true;
             
-            // Mở demo ngay lập tức
+            // Kiểm tra GitHub Pages status
             setTimeout(() => {
-                // Mở trong tab mới với URL demo trực tiếp
-                window.open('https://jkhoa.github.io/MVC-Blog-Application/', '_blank', 'noopener');
+                // GitHub Pages có thể chưa được kích hoạt
+                const githubPagesUrl = 'https://jkhoa.github.io/MVC-Blog-Application/';
+                const repoUrl = 'https://github.com/JKhoa/MVC-Blog-Application';
+                
+                // Thử mở GitHub Pages trước
+                const testWindow = window.open(githubPagesUrl, '_blank', 'noopener');
                 
                 // Reset button
                 btn.innerHTML = originalText;
                 btn.disabled = false;
                 
-                // Thông báo thành công
+                // Thông báo hướng dẫn
                 setTimeout(() => {
-                    alert('✅ Demo đã được mở trong tab mới!\n\n🌐 URL: https://jkhoa.github.io/MVC-Blog-Application/\n\n📝 Nếu không tự động mở, vui lòng truy cập URL trên.');
+                    const message = `
+🔧 HƯỚNG DẪN KÍCH HOẠT GITHUB PAGES:
+
+1. 📁 Truy cập repository: ${repoUrl}
+2. ⚙️ Vào Settings → Pages
+3. 🌐 Source: Deploy from a branch
+4. 📂 Branch: main → /docs folder
+5. 💾 Save và đợi 2-3 phút
+
+📱 Sau khi kích hoạt, demo sẽ có tại:
+${githubPagesUrl}
+
+💡 CÁCH CHẠY NGAY BÂY GIỜ:
+• Clone repository về máy
+• Mở MvcBlog.csproj trong Visual Studio
+• Nhấn F5 để chạy local
+
+Repository: ${repoUrl}
+                    `;
+                    alert(message);
                 }, 500);
             }, 1000);
         }
