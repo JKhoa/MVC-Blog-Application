@@ -1,4 +1,4 @@
-﻿# Quick Demo Script - Mở demo page local đã được tối ưu
+﻿# Quick Demo Script - Mở demo page đã được tối ưu
 
 Write-Host "🚀 Opening Optimized MVC Blog Demo..." -ForegroundColor Green
 
@@ -10,15 +10,18 @@ if (Test-Path "docs/index.html") {
     # Mở browser
     Start-Process $demoPath
     Write-Host "🌐 Đã mở demo page trong browser với:" -ForegroundColor Cyan
-    Write-Host "   • GitHub Repository link: https://github.com/JKhoa/Study" -ForegroundColor White
-    Write-Host "   • Open in VS Code functionality" -ForegroundColor White
-    Write-Host "   • Simplified clean interface" -ForegroundColor White
+    Write-Host "   • GitHub Repository: https://github.com/JKhoa/MVC-Blog-Application" -ForegroundColor White
+    Write-Host "   • Live Demo functionality" -ForegroundColor White
+    Write-Host "   • Improved project structure display" -ForegroundColor White
 } else {
     Write-Host "❌ Không tìm thấy demo page. Chạy create-demo-links.ps1 trước" -ForegroundColor Red
 }
 
 Write-Host "`n🌐 Online Demo Link:" -ForegroundColor Yellow
-Write-Host "   https://jkhoa.github.io/Study/Web_Nang_Cao/Lab3/MvcBlog/docs/" -ForegroundColor Cyan
+Write-Host "   https://jkhoa.github.io/MVC-Blog-Application/" -ForegroundColor Cyan
+
+Write-Host "`n📁 GitHub Repository:" -ForegroundColor Yellow
+Write-Host "   https://github.com/JKhoa/MVC-Blog-Application" -ForegroundColor Cyan
 
 Write-Host "`n📝 Local URLs khi chạy ứng dụng thực:" -ForegroundColor Yellow
 Write-Host "   http://localhost:port/Blog" -ForegroundColor Cyan
