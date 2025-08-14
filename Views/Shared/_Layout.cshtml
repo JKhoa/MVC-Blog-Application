@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - MvcBlog</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        header h1 {
+            margin: 0;
+            text-align: center;
+        }
+        nav {
+            background-color: #34495e;
+            padding: 0.5rem 0;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        nav li {
+            margin: 0 10px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            display: block;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        nav a:hover {
+            background-color: #3498db;
+        }
+        main {
+            padding: 2rem 0;
+            min-height: 500px;
+        }
+        .content {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+        .error {
+            background-color: #e74c3c;
+            color: white;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+        .success {
+            background-color: #27ae60;
+            color: white;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+        .info {
+            background-color: #3498db;
+            color: white;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>MvcBlog - Lab 3</h1>
+            <p style="text-align: center; margin: 0; opacity: 0.8;">
+                Ứng dụng MVC Blog với Entity Framework
+            </p>
+        </div>
+    </header>
+    
+    <nav>
+        <div class="container">
+            <ul>
+                <li>@Html.ActionLink("Trang chủ", "Index", "Home")</li>
+                <li>@Html.ActionLink("Tất cả Blogs", "Index", "Blog")</li>
+                <li>@Html.ActionLink("Blogs hoạt động", "ActiveBlogs", "Blog")</li>
+                <li>@Html.ActionLink("Blogs gần đây", "Recent", "Blog")</li>
+                <li>@Html.ActionLink("Tất cả Posts", "Index", "Post")</li>
+                <li>@Html.ActionLink("Posts đã xuất bản", "Published", "Post")</li>
+                <li>@Html.ActionLink("Posts gần đây", "Recent", "Post")</li>
+                <li>@Html.ActionLink("Tất cả Tags", "Tags", "Post")</li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <div class="content">
+                @RenderBody()
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; @DateTime.Now.Year - MvcBlog Lab 3 - Entity Framework MVC Application</p>
+        </div>
+    </footer>
+</body>
+</html>

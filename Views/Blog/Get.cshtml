@@ -1,0 +1,164 @@
+@model EntityModel.Blog
+
+@{
+    ViewBag.Title = ViewBag.Title ?? "Chi tiết Blog";
+}
+
+<div>
+    <h2>@ViewBag.Title</h2>
+    
+    @if (!string.IsNullOrEmpty(ViewBag.Error as string))
+    {
+        <div class="error">
+            <strong>Lỗi:</strong> @ViewBag.Error
+            <div style="margin-top: 1rem;">
+                @Html.ActionLink("← Quay lại danh sách Blogs", "Index", "Blog", null, new { @style = "color: white; text-decoration: none;" })
+            </div>
+        </div>
+    }
+    else if (Model != null)
+    {
+        <div style="margin-bottom: 1rem;">
+            @Html.ActionLink("← Quay lại danh sách Blogs", "Index", "Blog", null, new { @style = "color: #3498db; text-decoration: none;" })
+        </div>
+
+        <div style="border: 1px solid #ddd; border-radius: 8px; padding: 2rem; background: #fff; margin-bottom: 2rem;">
+            <div style="border-bottom: 3px solid #3498db; padding-bottom: 1rem; margin-bottom: 1.5rem;">
+                <h1 style="margin: 0; color: #2c3e50;">@Model.Title</h1>
+                <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem; font-size: 0.9em; color: #666;">
+                    <span><strong>Blog ID:</strong> @Model.BlogId</span>
+                    <span><strong>Tác giả:</strong> @(Model.Author ?? "Không có")</span>
+                    <span><strong>Ngày tạo:</strong> @Model.CreatedDate.ToString("dd/MM/yyyy HH:mm")</span>
+                    @if (Model.ModifiedDate.HasValue)
+                    {
+                        <span><strong>Cập nhật lần cuối:</strong> @Model.ModifiedDate.Value.ToString("dd/MM/yyyy HH:mm")</span>
+                    }
+                    <span style="color: @(Model.IsActive ? "#27ae60" : "#e74c3c");">
+                        <strong>Trạng thái:</strong> @(Model.IsActive ? "✓ Hoạt động" : "✗ Không hoạt động")
+                    </span>
+                </div>
+            </div>
+            
+            <div style="margin-bottom: 2rem;">
+                <h3 style="color: #34495e; margin-bottom: 0.5rem;">Mô tả:</h3>
+                <p style="font-size: 1.1em; line-height: 1.8; color: #555; margin: 0;">@Model.Description</p>
+            </div>
+
+            @if (Model.Posts != null && Model.Posts.Any())
+            {
+                var publishedPosts = Model.Posts.Where(p => p.IsPublished).ToList();
+                var draftPosts = Model.Posts.Where(p => !p.IsPublished).ToList();
+                
+                <div>
+                    <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 1rem;">
+                        <h3 style="color: #34495e; margin: 0;">
+                            Danh sách bài viết (@Model.Posts.Count() bài viết)
+                        </h3>
+                        <div style="font-size: 0.9em; color: #666;">
+                            <span style="color: #27ae60;">@publishedPosts.Count đã xuất bản</span> | 
+                            <span style="color: #e74c3c;">@draftPosts.Count nháp</span>
+                        </div>
+                    </div>
+
+                    @if (publishedPosts.Any())
+                    {
+                        <div style="margin-bottom: 2rem;">
+                            <h4 style="color: #27ae60; margin-bottom: 1rem;">📄 Bài viết đã xuất bản (@publishedPosts.Count)</h4>
+                            <div style="display: grid; gap: 1rem;">
+                                @foreach (var post in publishedPosts.OrderByDescending(p => p.CreatedDate))
+                                {
+                                    <div style="border: 1px solid #27ae60; border-radius: 6px; padding: 1rem; background: #f8fff8;">
+                                        <h5 style="margin: 0 0 0.5rem 0;">
+                                            @Html.ActionLink(post.Title, "Get", "Post", new { id = post.PostId }, new { style = "color: #27ae60; text-decoration: none; font-weight: bold;" })
+                                            <span style="font-size: 0.8em; color: #666; font-weight: normal;">(ID: @post.PostId)</span>
+                                        </h5>
+                                        
+                                        @if (!string.IsNullOrEmpty(post.Summary))
+                                        {
+                                            <p style="margin: 0.5rem 0; color: #555; line-height: 1.6;">@post.Summary</p>
+                                        }
+                                        
+                                        <div style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.8em; color: #666; margin-top: 0.5rem;">
+                                            <span><strong>Ngày tạo:</strong> @post.CreatedDate.ToString("dd/MM/yyyy HH:mm")</span>
+                                            @if (post.ModifiedDate.HasValue)
+                                            {
+                                                <span><strong>Cập nhật:</strong> @post.ModifiedDate.Value.ToString("dd/MM/yyyy HH:mm")</span>
+                                            }
+                                            @if (!string.IsNullOrEmpty(post.Author))
+                                            {
+                                                <span><strong>Tác giả:</strong> @post.Author</span>
+                                            }
+                                            @if (!string.IsNullOrEmpty(post.Tags))
+                                            {
+                                                <span><strong>Tags:</strong> @post.Tags</span>
+                                            }
+                                        </div>
+                                        
+                                        <div style="text-align: right; margin-top: 0.5rem;">
+                                            @Html.ActionLink("Xem chi tiết", "Get", "Post", new { id = post.PostId }, new { @style = "background: #27ae60; color: white; padding: 0.3rem 0.8rem; text-decoration: none; border-radius: 4px; font-size: 0.9em;" })
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    @if (draftPosts.Any())
+                    {
+                        <div>
+                            <h4 style="color: #e74c3c; margin-bottom: 1rem;">✏️ Bài viết nháp (@draftPosts.Count)</h4>
+                            <div style="display: grid; gap: 1rem;">
+                                @foreach (var post in draftPosts.OrderByDescending(p => p.CreatedDate))
+                                {
+                                    <div style="border: 1px solid #e74c3c; border-radius: 6px; padding: 1rem; background: #fff8f8;">
+                                        <h5 style="margin: 0 0 0.5rem 0;">
+                                            @Html.ActionLink(post.Title, "Get", "Post", new { id = post.PostId }, new { style = "color: #e74c3c; text-decoration: none; font-weight: bold;" })
+                                            <span style="font-size: 0.8em; color: #666; font-weight: normal;">(ID: @post.PostId)</span>
+                                        </h5>
+                                        
+                                        @if (!string.IsNullOrEmpty(post.Summary))
+                                        {
+                                            <p style="margin: 0.5rem 0; color: #555; line-height: 1.6;">@post.Summary</p>
+                                        }
+                                        
+                                        <div style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.8em; color: #666; margin-top: 0.5rem;">
+                                            <span><strong>Ngày tạo:</strong> @post.CreatedDate.ToString("dd/MM/yyyy HH:mm")</span>
+                                            @if (post.ModifiedDate.HasValue)
+                                            {
+                                                <span><strong>Cập nhật:</strong> @post.ModifiedDate.Value.ToString("dd/MM/yyyy HH:mm")</span>
+                                            }
+                                            @if (!string.IsNullOrEmpty(post.Author))
+                                            {
+                                                <span><strong>Tác giả:</strong> @post.Author</span>
+                                            }
+                                            @if (!string.IsNullOrEmpty(post.Tags))
+                                            {
+                                                <span><strong>Tags:</strong> @post.Tags</span>
+                                            }
+                                        </div>
+                                        
+                                        <div style="text-align: right; margin-top: 0.5rem;">
+                                            @Html.ActionLink("Xem chi tiết", "Get", "Post", new { id = post.PostId }, new { @style = "background: #e74c3c; color: white; padding: 0.3rem 0.8rem; text-decoration: none; border-radius: 4px; font-size: 0.9em;" })
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div style="text-align: center; padding: 2rem; color: #666; background: #f8f9fa; border-radius: 6px;">
+                    <h4>📝 Chưa có bài viết nào</h4>
+                    <p>Blog này chưa có bài viết nào được tạo.</p>
+                </div>
+            }
+        </div>
+
+        <div style="text-align: center; margin: 2rem 0;">
+            @Html.ActionLink("← Quay lại danh sách Blogs", "Index", "Blog", null, new { @style = "background: #3498db; color: white; padding: 0.7rem 1.5rem; text-decoration: none; border-radius: 4px; margin-right: 0.5rem;" })
+            @Html.ActionLink("Xem tất cả Posts của Blog này", "ByBlog", "Post", new { blogId = Model.BlogId }, new { @style = "background: #27ae60; color: white; padding: 0.7rem 1.5rem; text-decoration: none; border-radius: 4px;" })
+        </div>
+    }
+</div>

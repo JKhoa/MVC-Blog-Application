@@ -1,0 +1,84 @@
+@{
+    ViewBag.Title = "Trang chủ";
+}
+
+<div style="text-align: center; padding: 2rem 0;">
+    <h2>@ViewBag.Message</h2>
+    
+    <div style="margin: 2rem 0;">
+        <p style="font-size: 1.1em; color: #666;">
+            Đây là ứng dụng MVC Blog được tạo trong Lab 3, tích hợp với Entity Framework từ Lab 2.
+        </p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin: 2rem 0;">
+        
+        <div style="background: #3498db; color: white; padding: 1.5rem; border-radius: 8px;">
+            <h3>📝 Quản lý Blogs</h3>
+            <p>Xem và quản lý tất cả các blogs trong hệ thống</p>
+            <div style="margin-top: 1rem;">
+                @Html.ActionLink("Xem tất cả Blogs", "Index", "Blog", null, new { @style = "color: white; text-decoration: none; background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 4px; display: inline-block;" })
+            </div>
+        </div>
+
+        <div style="background: #e74c3c; color: white; padding: 1.5rem; border-radius: 8px;">
+            <h3>📄 Quản lý Posts</h3>
+            <p>Xem và quản lý tất cả các bài viết trong hệ thống</p>
+            <div style="margin-top: 1rem;">
+                @Html.ActionLink("Xem tất cả Posts", "Index", "Post", null, new { @style = "color: white; text-decoration: none; background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 4px; display: inline-block;" })
+            </div>
+        </div>
+
+        <div style="background: #27ae60; color: white; padding: 1.5rem; border-radius: 8px;">
+            <h3>🔍 Tìm kiếm</h3>
+            <p>Tìm kiếm blogs và posts theo từ khóa</p>
+            <div style="margin-top: 1rem;">
+                <form action="@Url.Action("Search", "Blog")" method="get" style="display: inline-block; margin-right: 10px;">
+                    <input type="text" name="keyword" placeholder="Tìm blogs..." style="padding: 0.5rem; border: none; border-radius: 4px;">
+                    <input type="submit" value="Tìm" style="background: rgba(255,255,255,0.2); color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">
+                </form>
+            </div>
+        </div>
+
+        <div style="background: #f39c12; color: white; padding: 1.5rem; border-radius: 8px;">
+            <h3>🏷️ Tags</h3>
+            <p>Xem tất cả các tags được sử dụng trong posts</p>
+            <div style="margin-top: 1rem;">
+                @Html.ActionLink("Xem tất cả Tags", "Tags", "Post", null, new { @style = "color: white; text-decoration: none; background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 4px; display: inline-block;" })
+            </div>
+        </div>
+    </div>
+
+    <div style="margin: 2rem 0; padding: 1.5rem; background: #ecf0f1; border-radius: 8px;">
+        <h3>🚀 Tính năng chính</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; text-align: left;">
+            <div>
+                <h4>Blog Management</h4>
+                <ul>
+                    <li>Xem danh sách tất cả blogs</li>
+                    <li>Xem blog cụ thể với posts</li>
+                    <li>Tìm kiếm blogs</li>
+                    <li>Blogs gần đây và hoạt động</li>
+                </ul>
+            </div>
+            <div>
+                <h4>Post Management</h4>
+                <ul>
+                    <li>Xem danh sách tất cả posts</li>
+                    <li>Xem post cụ thể với blog</li>
+                    <li>Tìm kiếm posts</li>
+                    <li>Posts theo tags và tác giả</li>
+                </ul>
+            </div>
+            <div>
+                <h4>Routing</h4>
+                <ul>
+                    <li>/Blog/Get/{id} - Xem blog cụ thể</li>
+                    <li>/Blog - Danh sách blogs</li>
+                    <li>/Post/Get/{id} - Xem post cụ thể</li>
+                    <li>/Post - Danh sách posts</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

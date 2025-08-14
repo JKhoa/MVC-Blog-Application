@@ -1,0 +1,56 @@
+@model IEnumerable<string>
+
+@{
+    ViewBag.Title = "Tất cả Tags";
+}
+
+<div>
+    <h2>@ViewBag.Title</h2>
+    
+    @if (ViewBag.TotalTags != null)
+    {
+        <div class="info">
+            <strong>Tổng số tags:</strong> @ViewBag.TotalTags
+        </div>
+    }
+
+    <div style="margin-bottom: 1rem;">
+        @Html.ActionLink("← Quay lại danh sách Posts", "Index", "Post", null, new { @style = "color: #3498db; text-decoration: none;" })
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div style="margin-top: 2rem;">
+            <h3 style="color: #34495e; margin-bottom: 1rem;">🏷️ Danh sách tất cả Tags:</h3>
+            
+            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem;">
+                @foreach (var tag in Model)
+                {
+                    <a href="@Url.Action("ByTag", "Post", new { tag = tag })" 
+                       style="background: #f39c12; color: white; padding: 0.5rem 1rem; border-radius: 20px; text-decoration: none; font-size: 0.9em; transition: all 0.3s; display: inline-block;"
+                       onmouseover="this.style.background='#e67e22'; this.style.transform='scale(1.05)'"
+                       onmouseout="this.style.background='#f39c12'; this.style.transform='scale(1)'">
+                        #@tag
+                    </a>
+                }
+            </div>
+
+            <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #3498db;">
+                <h4 style="color: #34495e; margin-top: 0;">💡 Hướng dẫn sử dụng:</h4>
+                <ul style="color: #666; line-height: 1.6;">
+                    <li>Click vào bất kỳ tag nào để xem tất cả posts có tag đó</li>
+                    <li>Tags được sắp xếp theo thứ tự alphabet</li>
+                    <li>Mỗi tag hiển thị tất cả posts liên quan, bao gồm cả posts đã xuất bản và nháp</li>
+                </ul>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div style="text-align: center; padding: 2rem; color: #666;">
+            <h3>Chưa có tag nào</h3>
+            <p>Hiện tại chưa có tag nào trong hệ thống.</p>
+            @Html.ActionLink("Về trang chủ", "Index", "Home", null, new { @style = "color: #3498db; text-decoration: none;" })
+        </div>
+    }
+</div>

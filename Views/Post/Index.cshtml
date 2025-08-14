@@ -1,0 +1,183 @@
+@model IEnumerable<EntityModel.Post>
+
+@{
+    ViewBag.Title = ViewBag.Title ?? "Danh sách Posts";
+}
+
+<div>
+    <h2>@ViewBag.Title</h2>
+    
+    @if (!string.IsNullOrEmpty(ViewBag.Error as string))
+    {
+        <div class="error">
+            <strong>Lỗi:</strong> @ViewBag.Error
+        </div>
+    }
+    
+    @if (!string.IsNullOrEmpty(ViewBag.Message as string))
+    {
+        <div class="info">
+            @ViewBag.Message
+        </div>
+    }
+
+    @if (ViewBag.TotalPosts != null)
+    {
+        <div class="info">
+            <strong>Tổng số posts:</strong> @ViewBag.TotalPosts
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(ViewBag.Keyword as string))
+    {
+        <div class="info">
+            <strong>Từ khóa tìm kiếm:</strong> "@ViewBag.Keyword" 
+            (@ViewBag.ResultCount kết quả)
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(ViewBag.Tag as string))
+    {
+        <div class="info">
+            <strong>Tag:</strong> "@ViewBag.Tag" 
+            (@ViewBag.TotalPosts posts)
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(ViewBag.Author as string))
+    {
+        <div class="info">
+            <strong>Tác giả:</strong> "@ViewBag.Author" 
+            (@ViewBag.TotalPosts posts)
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(ViewBag.BlogTitle as string))
+    {
+        <div class="info">
+            <strong>Blog:</strong> "@ViewBag.BlogTitle" 
+            (@ViewBag.TotalPosts posts) - 
+            @Html.ActionLink("Xem Blog", "Get", "Blog", new { id = ViewBag.BlogId }, new { style = "color: white;" })
+        </div>
+    }
+
+    <div style="margin: 1rem 0;">
+        <a href="@Url.Action("Index", "Post")" style="margin-right: 10px;">Tất cả Posts</a> |
+        <a href="@Url.Action("Published", "Post")" style="margin: 0 10px;">Posts đã xuất bản</a> |
+        <a href="@Url.Action("Draft", "Post")" style="margin: 0 10px;">Posts nháp</a> |
+        <a href="@Url.Action("Recent", "Post")" style="margin: 0 10px;">Posts gần đây</a> |
+        <a href="@Url.Action("Tags", "Post")" style="margin: 0 10px;">Tất cả Tags</a>
+    </div>
+
+    <div style="margin: 1rem 0;">
+        <form action="@Url.Action("Search", "Post")" method="get" style="display: inline-block; margin-right: 15px;">
+            <input type="text" name="keyword" placeholder="Tìm kiếm posts..." value="@ViewBag.Keyword" style="padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+            <input type="submit" value="Tìm kiếm" style="background: #3498db; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">
+        </form>
+        
+        <form action="@Url.Action("ByTag", "Post")" method="get" style="display: inline-block; margin-right: 15px;">
+            <input type="text" name="tag" placeholder="Tìm theo tag..." value="@ViewBag.Tag" style="padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+            <input type="submit" value="Tìm tag" style="background: #f39c12; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">
+        </form>
+        
+        <form action="@Url.Action("ByAuthor", "Post")" method="get" style="display: inline-block;">
+            <input type="text" name="author" placeholder="Tìm theo tác giả..." value="@ViewBag.Author" style="padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+            <input type="submit" value="Tìm tác giả" style="background: #27ae60; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">
+        </form>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div style="display: grid; gap: 1.5rem; margin-top: 2rem;">
+            @foreach (var post in Model)
+            {
+                <div style="border: 1px solid #ddd; border-radius: 8px; padding: 1.5rem; background: #fff; border-left: 4px solid @(post.IsPublished ? "#27ae60" : "#e74c3c");">
+                    <div style="display: flex; justify-content: between; align-items: start; margin-bottom: 1rem;">
+                        <div style="flex-grow: 1;">
+                            <h3 style="margin: 0 0 0.5rem 0; color: #2c3e50;">
+                                @Html.ActionLink(post.Title, "Get", "Post", new { id = post.PostId }, new { style = "color: #2c3e50; text-decoration: none;" })
+                            </h3>
+                            <div style="display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9em; color: #666;">
+                                <span><strong>ID:</strong> @post.PostId</span>
+                                <span><strong>Tác giả:</strong> @(post.Author ?? "Không có")</span>
+                                <span><strong>Ngày tạo:</strong> @post.CreatedDate.ToString("dd/MM/yyyy HH:mm")</span>
+                                @if (post.ModifiedDate.HasValue)
+                                {
+                                    <span><strong>Cập nhật:</strong> @post.ModifiedDate.Value.ToString("dd/MM/yyyy HH:mm")</span>
+                                }
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <span style="background: @(post.IsPublished ? "#27ae60" : "#e74c3c"); color: white; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8em; font-weight: bold;">
+                                @(post.IsPublished ? "✓ Đã xuất bản" : "✏ Nháp")
+                            </span>
+                        </div>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(post.Summary))
+                    {
+                        <div style="margin-bottom: 1rem;">
+                            <p style="margin: 0; color: #555; line-height: 1.6; font-style: italic;">@post.Summary</p>
+                        </div>
+                    }
+
+                    <div style="margin-bottom: 1rem;">
+                        <div style="max-height: 100px; overflow: hidden; color: #666; line-height: 1.6;">
+                            @if (post.Content.Length > 200)
+                            {
+                                @(post.Content.Substring(0, 200))...
+                            }
+                            else
+                            {
+                                @post.Content
+                            }
+                        </div>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(post.Tags))
+                    {
+                        <div style="margin-bottom: 1rem;">
+                            <strong style="color: #666; font-size: 0.9em;">Tags:</strong>
+                            @foreach (var tag in post.Tags.Split(',', ';', '|').Select(t => t.Trim()).Where(t => !string.IsNullOrEmpty(t)))
+                            {
+                                <a href="@Url.Action("ByTag", "Post", new { tag = tag })" style="background: #f39c12; color: white; padding: 0.2rem 0.5rem; border-radius: 12px; font-size: 0.8em; text-decoration: none; margin-right: 0.3rem; display: inline-block;">
+                                    #@tag
+                                </a>
+                            }
+                        </div>
+                    }
+
+                    <div style="border-top: 1px solid #eee; padding-top: 1rem; display: flex; justify-content: between; align-items: center;">
+                        <div style="font-size: 0.9em; color: #666;">
+                            <strong>Blog:</strong> 
+                            @if (post.Blog != null)
+                            {
+                                @Html.ActionLink(post.Blog.Title, "Get", "Blog", new { id = post.Blog.BlogId }, new { style = "color: #3498db; text-decoration: none;" })
+                                <span>(ID: @post.Blog.BlogId)</span>
+                            }
+                            else
+                            {
+                                <span>Blog ID: @post.BlogId</span>
+                            }
+                        </div>
+                        <div>
+                            @Html.ActionLink("Xem chi tiết", "Get", "Post", new { id = post.PostId }, new { @style = "background: #3498db; color: white; padding: 0.5rem 1rem; text-decoration: none; border-radius: 4px; margin-right: 0.5rem;" })
+                            @if (post.Blog != null)
+                            {
+                                @Html.ActionLink("Xem Blog", "Get", "Blog", new { id = post.Blog.BlogId }, new { @style = "background: #27ae60; color: white; padding: 0.5rem 1rem; text-decoration: none; border-radius: 4px;" })
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div style="text-align: center; padding: 2rem; color: #666;">
+            <h3>Không có post nào được tìm thấy</h3>
+            <p>Hiện tại chưa có post nào trong hệ thống hoặc không có kết quả phù hợp với tìm kiếm của bạn.</p>
+            @Html.ActionLink("Về trang chủ", "Index", "Home", null, new { @style = "color: #3498db; text-decoration: none;" })
+        </div>
+    }
+</div>
